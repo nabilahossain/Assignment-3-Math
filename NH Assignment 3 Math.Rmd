@@ -1,0 +1,126 @@
+---
+title: "Week 3 - Data Science Math Assignment"
+author: "Nabila Hossain"
+date: "July 19, 2015"
+output:
+  html_document:
+    keep_md: yes
+---
+
+####Assignment:  Please complete exercises 2.34, 2.40, 2.42, and 2.46 in OpenIntro Statistics (pp. 114-117).
+
+__2.34 Card game. Consider the following card game with a well-shuﬄed deck of cards. If you draw a red card, you win nothing. If you get a spade, you win $5. For any club, you win $10 plus an extra $20 for the ace of clubs.__ 
+
+  + __(a) Create a probability model for the amount you win at this game. Also, ﬁnd the expected winnings for a single game and the standard deviation of the winnings.__ 
+
+```{r}
+a <- c(0, 5, 10, 30)
+b <- c(26/52, 13/52, 12/52, 1/52)
+d <- (a[1] * b[1]) + (a[2] * b[2]) + (a[3] * b[3]) + (a[4] * b[4])
+e <- ((a[1] - d)^2 * b[1]) + ((a[2] - d)^2 * b[2]) + ((a[3] - d)^2 * b[3]) + ((a[4] - d)^2 * b[4])
+
+```
+
+Equations  |  Red  |  Spade   |   Club(not Ace)  |  Club(Ace)  |  Total
+------- | -------- | -------- | -------- | ------- | ------
+$x_i$ | $`r a[1]`  | $`r a[2]` | $`r a[3]` | $`r a[4]`
+$P(X=x_i)$  | `r b[1]`  | `r b[2]`  | `r b[3]` | `r b[4]`
+$x_i*P(X=x_i)$  | `r a[1] * b[1]`  | `r a[2] * b[2]`  | `r a[3] * b[3]` |  `r a[4] * b[4]` |  E(X) = `r d` 
+$x_i-E(X)$  | `r a[1] - d`  | `r a[2] - d` | `r a[3] - d`  |  `r a[4] - d`  | 
+$(x_i-E(X))^2$ | `r (a[1] - d)^2` | `r (a[2] - d)^2`  |  `r (a[3] - d)^2`  | `r (a[4] - d)^2` |  
+$(x_i-E(X))^2*P(X=x_i)$ | `r (a[1] - d)^2 * b[1]` | `r (a[2] - d)^2 * b[2]` | `r (a[3] - d)^2 * b[3]` | `r (a[4] - d)^2 * b[4]`  |  V(X) = `r e`
+
+The expected winngings for a single game is E(X) = $`r d`. The standard deviation is $\sqrt{V(X)}=$ $`r sqrt(e)`.
+
+
+  + __(b) What is the maximum amount you would be willing to pay to play this game? Explain__
+
+I am willing to pay $4, since the expected value of this game is positive $4.13. 
+
+
+__2.40 Baggage fees. An airline charges the following baggage fees: $25 for the ﬁrst bag and $35 for the second. Suppose 54% of passengers have no checked luggage, 34% have one piece of checked luggage and 12% have two pieces. We suppose a negligible portion of people check more than two bags.__
+
+```{r}
+a <- c(0, 25, 60)
+b <- c(0.54, 0.34, 0.12)
+d <- (a[1] * b[1]) + (a[2] * b[2]) + (a[3] * b[3])
+e <- ((a[1] - d)^2 * b[1]) + ((a[2] - d)^2 * b[2]) + ((a[3] - d)^2 * b[3])
+```
+
++ __(a) Build a probability model, compute the average revenue per passenger, and compute the corresponding standard deviation.__ 
+
+Equations  |  No luggage  |  1 luggage    |   2 luggages  |  Total
+------------- | ------------- | ------------- | ----------- | -------
+$x_i$ | $`r a[1]`  | $`r a[2]` | $`r a[3]` |  
+$P(X=x_i)$  | `r b[1]`  | `r b[2]`  | `r b[3]` 
+$x_i*P(X=x_i)$  | `r a[1] * b[1]`  | `r a[2] * b[2]`  | `r a[3] * b[3]` |  E(X) = `r d` 
+$x_i-E(X)$  | `r a[1] - d`  | `r a[2] - d` | `r a[3] - d`  |   
+$(x_i-E(X))^2$ | `r (a[1] - d)^2` | `r (a[2] - d)^2`  |  `r (a[3] - d)^2`  |  
+$(x_i-E(X))^2*P(X=x_i)$ | `r (a[1] - d)^2 * b[1]` | `r (a[2] - d)^2 * b[2]` | `r (a[3] - d)^2 * b[3]`  |  V(X) = `r e`
+
+The average revenue per passanger is E(X) = $`r d`. The standard deviation is $\sqrt{V(X)}=$ $`r sqrt(e)`.
+
+  + __(b) About how much revenue should the airline expect for a ﬂight of 120 passengers? With what standard deviation? Note any assumptions you make and if you think they are justiﬁed.__
+
+Assuming that no one checked in more then 2 pieces of baggage or payed any other extra fee for their baggage (ex: overweight),  the airline should be expecting to make about $`r 120 * d` in revenue from a flight of 120 passangers. With the standard devition of $`r sqrt(e)`.
+
+
+__2.42 Selling on Ebay. Marcie has been tracking the following two items on Ebay:   
+   • A textbook that sells for an average of $110 with a standard deviation of $4.   
+   • Mario Kart for the Nintendo Wii, which sells for an average of $38 with a standard deviation of $5.__
+```{r}
+a <- c(110, 38)
+b <- c(4, 5)
+```
+
+ + __(a) Marcie wants to sell the video game and buy the textbook. How much net money (proﬁts losses) would she expect to make or spend? Also compute the standard deviation of how much she would make or spend.__
+
+Marcie should be expecting to have a net profit (loses) of `r a[2] - a[1]`, meaning that she should be expected to spend $`r a[1] - a[2]`. The standard deviation is $`r sqrt((b[1])^2 + (b[2])^2)`. 
+ 
+ + __(b) Lucy is selling the textbook on Ebay for a friend, and her friend is giving her a 10% commission (Lucy keeps 10% of the revenue). How much money should she expect to make? With what standard deviation?__
+
+Lucy should be expecting to get a commissin of $`r .1 * a[1]`. With the standard deviation of $`r sqrt((.1 * b[1])^2)`. 
+
+__2.46 Income and gender. The relative frequency table below displays the distribution of annual total personal income (in 2009 inﬂation-adjusted dollars) for a representative sample of 96,420,486 Americans. These data come from the American Community Survey for 2005-2009. This sample is comprised of 59% males and 41% females.__
+
+Income | Total 
+--------|-------
+$1 to $9,999 or loss | 2.2% 
+$10,000 to $14,999 | 4.7% 
+$15,000 to $24,999 | 15.8% 
+$25,000 to $34,999 | 18.3% 
+$35,000 to $49,999 | 21.2% 
+$50,000 to $64,999 | 13.9% 
+$65,000 to $74,999 | 5.8% 
+$75,000 to $99,999 | 8.4% 
+$100,000 or more | 9.7%
+
++ __(a) Describe the distribution of total personal income.__
+```{r, echo=FALSE}
+y <- c(0.022, 0.047, 0.158, 0.183, 0.212, 0.139, 0.058, 0.084, 0.097)
+x <- c("$1 to $9,999 or loss","$10,000 to $14,999","$15,000 to $24,999", "$25,000 to $34,999", "$35,000 to $49,999", "$50,000 to $64,999", "$65,000 to $74,999", "$75,000 to $99,999", "$100,000 or more")
+z <- c(.59, .41) 
+
+answer <- data.frame(Income = x, Total = y)
+answer
+barplot.default(answer$Total, main="Annual Total Person Income
+", names.arg=c("$1 to $9,999 or loss","$10,000 to $14,999","$15,000 to $24,999", "$25,000 to $34,999", "$35,000 to $49,999", "$50,000 to $64,999", "$65,000 to $74,999", "$75,000 to $99,999", "$100,000 or more"))
+
+```
+
+![image](https://raw.githubusercontent.com/nabilahossain/Image/master/answer.bmp)
+
+A we look at the graph on the top we see that the data of total personal income is skewed to the right 
+
+ + __(b) What is the probability that a randomly chosen US resident makes less than $50,000 per year?__ 
+
+The probability of a randomly chosen US resident who makes less than $50,000 per year is `r sum(y[1:5]) * 100`%.
+ 
+  + __(c) What is the probability that a randomly chosen US resident makes less than $50,000 per year and is female? Note any assumptions you make.__ 
+  
+Assuming that the ratio of males to females are the same for each income group. In otherwords I assumed that 41% of the workforce and each income group is female. Using that assumption the probability of a randomly chosen US resident who makes less than $50,000 per year and is a female is `r sum(y[1:5]) * z[2] * 100`%. 
+
+   + __(d) The same data source indicates that 71.8% of females make less than $50,000 per year. Use this value to determine whether or not the assumption you made in part (c) is valid.__
+
+The probability of a randomly chosen US resident is a female knowing that 71.8% females make less than $50,000 is `r 0.718 * z[2] * 100`%. The assumption I made in part (c) is valid since we were working with such a large data set, and as we see from the answers they are not very different.  
+
